@@ -1,6 +1,11 @@
 from setuptools import setup, find_packages
 from io import open
 
+try:
+   from distutils.command.build_py import build_py_2to3  as build_py
+except ImportError:
+   from distutils.command.build_py import build_py
+
 setup(
     name='django-flowjs',
     version='0.1',
@@ -8,8 +13,8 @@ setup(
     long_description=open('README.md', encoding='utf-8').read(),
     author='Nelson Monteiro',
     author_email='nelson.reis.monteiro@gmail.com',
-    url='https://github.com/nelsonmonteiro/django-flowjs',
-    #download_url='https://pypi.python.org/pypi/django-flowjs',
+    url='https://github.com/keyz182/django-flowjs',
+    cmdclass = {'build_py': build_py},
     license='MIT',
     packages=find_packages(),
     include_package_data=True,
