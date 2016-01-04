@@ -12,14 +12,24 @@ class FlowFileForm(forms.Form):
 class UploadView(View):
     def dispatch(self, request, *args, **kwargs):
         # get flow variables
-        self.flowChunkNumber = int(request.REQUEST.get('flowChunkNumber'))
-        self.flowChunckSize = int(request.REQUEST.get('flowChunkSize'))
-        self.flowCurrentChunkSize = int(request.REQUEST.get('flowCurrentChunkSize'))
-        self.flowTotalSize = int(request.REQUEST.get('flowTotalSize'))
-        self.flowIdentifier = request.REQUEST.get('flowIdentifier')
-        self.flowFilename = request.REQUEST.get('flowFilename')
-        self.flowRelativePath = request.REQUEST.get('flowRelativePath')
-        self.flowTotalChunks = int(request.REQUEST.get('flowTotalChunks'))
+        if request.method == 'POST':
+            self.flowChunkNumber = int(request.POST.get('flowChunkNumber'))
+            self.flowChunckSize = int(request.POST.get('flowChunkSize'))
+            self.flowCurrentChunkSize = int(request.POST.get('flowCurrentChunkSize'))
+            self.flowTotalSize = int(request.POST.get('flowTotalSize'))
+            self.flowIdentifier = request.POST.get('flowIdentifier')
+            self.flowFilename = request.POST.get('flowFilename')
+            self.flowRelativePath = request.POST.get('flowRelativePath')
+            self.flowTotalChunks = int(request.POST.get('flowTotalChunks'))
+        else:
+            self.flowChunkNumber = int(request.GET.get('flowChunkNumber'))
+            self.flowChunckSize = int(request.GET.get('flowChunkSize'))
+            self.flowCurrentChunkSize = int(request.GET.get('flowCurrentChunkSize'))
+            self.flowTotalSize = int(request.GET.get('flowTotalSize'))
+            self.flowIdentifier = request.GET.get('flowIdentifier')
+            self.flowFilename = request.GET.get('flowFilename')
+            self.flowRelativePath = request.GET.get('flowRelativePath')
+            self.flowTotalChunks = int(request.GET.get('flowTotalChunks'))
 
         # identifier is a combination of session key and flow identifier
         self.identifier = ('%s-%s' % (request.session.session_key, self.flowIdentifier))[:200]
