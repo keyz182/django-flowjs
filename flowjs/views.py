@@ -9,7 +9,20 @@ class FlowFileForm(forms.Form):
     file = forms.FileField()
 
 
-class UploadView(View):
+class AuthenticationFailedException(Exception):
+    pass
+
+
+class FlowView(View):
+    def auth(self, request, *args, **kwargs):
+        pass
+
+    def dispatch(self, request, *args, **kwargs):
+        self.auth(request, *args, **kwargs)
+        return super(FlowView, self).dispatch(request, *args, **kwargs)
+
+
+class UploadView(FlowView):
     def dispatch(self, request, *args, **kwargs):
         # get flow variables
         if request.method == 'POST':
@@ -72,7 +85,7 @@ class UploadView(View):
         return http.HttpResponse(flow_file.identifier)
 
 
-class CheckStateView(View):
+class CheckStateView(FlowView):
     def get(self, request, *args, **kwargs):
         """
         Return the status of the file uploaded. This is important for big files,
