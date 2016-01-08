@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, url
-from views import UploadView, CheckStateView
+from flowjs.views import UploadView, CheckStateView
 
 
 # JSON REQUESTS
